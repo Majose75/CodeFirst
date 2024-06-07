@@ -12,11 +12,9 @@ namespace CodeFirst.Controllers
 {
     public class LibrosController : Controller
     {
-        //private readonly LibreriaContext _context;
-        private readonly IAutorRepositorio _autorContext;
-        private readonly ILibroRepositorio _context; 
-
-        public LibrosController(ILibroRepositorio context,IAutorRepositorio autorContext)
+        private readonly IGenericRepositorio<Autor> _autorContext;
+        private readonly IGenericRepositorio<Libro> _context;
+        public LibrosController(IGenericRepositorio<Libro> context, IGenericRepositorio<Autor> autorContext)
         {
             _context = context;
             _autorContext = autorContext;
@@ -105,7 +103,7 @@ namespace CodeFirst.Controllers
             {
                 try
                 {
-                    _context.ModificarElemento(libro);
+                    _context.ModificarElemento(id,libro);
                     
                 }
                 catch (DbUpdateConcurrencyException)
@@ -142,12 +140,7 @@ namespace CodeFirst.Controllers
 
         private bool LibroExists(int id)
         {
-            if (_context.DameUno((int)id) == null)
-                return false;
-            else
-            {
-                return true;
-            }
+            return _context.DameTodos().Any(e => e.Id == id);
         }
     }
 }

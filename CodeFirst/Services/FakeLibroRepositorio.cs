@@ -1,8 +1,10 @@
-﻿using CodeFirst.Models;
+﻿using System.Linq.Expressions;
+using CodeFirst.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeFirst.Services
 {
-    public class FakeLibroRepositorio:ILibroRepositorio
+    public class FakeLibroRepositorio:IGenericRepositorio<Libro>
     {
         private List<Libro> LibrosLista = new();
 
@@ -71,10 +73,17 @@ namespace CodeFirst.Services
             return true;
         }
 
-        public void ModificarElemento(Libro libro)
+        public void ModificarElemento(int Id, Libro elemento)
         {
-            EliminarElemento(libro.Id);
-            AgregarElemento(libro);
+            EliminarElemento(Id);
+            AgregarElemento(elemento);
         }
+
+        public List<Libro> Filtra(Expression<Func<Libro, bool>> predicado)
+        {
+            //return this.LibrosLista.Where(predicado).ToList();
+            return LibrosLista;
+        }
+
     }
 }

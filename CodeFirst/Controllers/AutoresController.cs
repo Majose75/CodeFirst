@@ -12,11 +12,9 @@ namespace CodeFirst.Controllers
 {
     public class AutoresController : Controller
     {
-        //private readonly LibreriaContext _context;
-        private readonly IAutorRepositorio _context;
-        
+        private readonly IGenericRepositorio<Autor> _context;
 
-        public AutoresController(IAutorRepositorio context)
+        public AutoresController(IGenericRepositorio<Autor> context)
         {
             _context = context;
 
@@ -101,7 +99,7 @@ namespace CodeFirst.Controllers
             {
                 try
                 {
-                    _context.ModificarElemento(autor);
+                    _context.ModificarElemento(autor.Id,autor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,7 +125,7 @@ namespace CodeFirst.Controllers
                 return NotFound();
             }
 
-            var autor = _context.EliminarElemento((int) id);
+            var autor = _context.DameUno((int) id);
             if (autor == null)
             {
                 return NotFound();
@@ -141,7 +139,12 @@ namespace CodeFirst.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _context.EliminarElemento((int)id);
+            var autor = _context.DameUno(id);
+            if (autor != null)
+            {
+                _context.EliminarElemento(id);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

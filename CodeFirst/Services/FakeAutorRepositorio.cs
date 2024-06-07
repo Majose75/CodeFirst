@@ -1,9 +1,10 @@
-﻿using CodeFirst.Models;
+﻿using System.Linq.Expressions;
+using CodeFirst.Models;
 using System.Text.RegularExpressions;
 
 namespace CodeFirst.Services
 {
-    public class FakeAutorRepositorio: IAutorRepositorio
+    public class FakeAutorRepositorio: IGenericRepositorio<Autor>
     {
         private List<Autor> AutoresLista=new();
         public FakeAutorRepositorio() 
@@ -60,10 +61,16 @@ namespace CodeFirst.Services
             return true;
         }
 
-        public void ModificarElemento(Autor autor)
+        public void ModificarElemento(int Id, Autor elemento)
         {
-            EliminarElemento(autor.Id);
-            AgregarElemento(autor);
+            EliminarElemento(Id);
+            AgregarElemento(elemento);
         }
+
+        public List<Autor> Filtra(Expression<Func<Autor, bool>> predicado)
+        {
+            return AutoresLista;
+        }
+
     }
 }

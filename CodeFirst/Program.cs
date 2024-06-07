@@ -6,10 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<LibreriaContext>();  //Sino se pone nada va a onconfiguring
-//builder.Services.AddScoped<IAutorRepositorio, FakeAutorRepositorio>();
-//builder.Services.AddScoped<ILibroRepositorio, FakeLibroRepositorio>();
-builder.Services.AddScoped<IAutorRepositorio, EFAutorRepositorio>();
-builder.Services.AddScoped<ILibroRepositorio, EFLibroRepositorio>();
+builder.Services.AddScoped(typeof(IGenericRepositorio<>), typeof(EFGenericRepositorio<>));
 
 var app = builder.Build();
 
