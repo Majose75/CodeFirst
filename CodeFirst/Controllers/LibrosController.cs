@@ -14,7 +14,7 @@ namespace CodeFirst.Controllers
     {
         //private readonly LibreriaContext _context;
         private readonly IAutorRepositorio _autorContext;
-        private readonly ILibroRepositorio _context;
+        private readonly ILibroRepositorio _context; 
 
         public LibrosController(ILibroRepositorio context,IAutorRepositorio autorContext)
         {
